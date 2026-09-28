@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Data & artifacts
+data/
+datasets/
+*.pt
+*.pth
+*.ckpt
+runs/
+outputs/
+wandb/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
