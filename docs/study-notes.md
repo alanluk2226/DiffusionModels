@@ -11,10 +11,6 @@ Status: Documentation study phase (no coding yet per user request)
 4. Later (after mastery): code VAE from scratch; code DDPM from scratch (Kaggle + Outlier video as refs)
 5. Proposal writing: Topic 4 Part1 + Part2 PDFs (HKMU COMP FYP)
 
-## Project context note
-
-Workspace `EverydayLens` is a separate portfolio classifier demo (Fashion-MNIST → ONNX → FastAPI → Next.js). FYP learning track here is generative modeling (VAE/Diffusion), not EverydayLens implementation.
-
 ---
 
 # Part A — VAE (must-know equations)
