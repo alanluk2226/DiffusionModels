@@ -216,9 +216,19 @@ Word limit ≈ 3000.
 
 ---
 
+# Proposal writing progress
+
+| Block | Status | Doc |
+|-------|--------|-----|
+| 1. Problem statement | Drafted (PPT + report) | `FYP_PPT_Structure_Mock.md` |
+| 2. Aims & objectives | Drafted | same |
+| 3. Literature review | **Done (expanded)** | `FYP_PPT_Literature_Review.md` + report Ch.2 |
+| 4. Preliminary methodology | Drafted (needs diagrams later) | PPT slides 8–9 / report Ch.3 |
+
 # Open items / next study actions
 
 1. Watch VAE vids 1–3 + intuitive video (equations ↔ intuition)
 2. Watch Luo talk while tracing paper §§ VDM / closed-form / ε-param
 3. Self-quiz: derive ELBO both ways; derive \(x_t\) closed form; derive why L_simple ≈ KL matching
-4. Only after that: open empty repo and code VAE then DDPM from scratch
+4. Polish Problem / Aims / Methodology PPT wording if supervisor feedback arrives
+5. Only after equation mastery: code VAE then DDPM from scratch
