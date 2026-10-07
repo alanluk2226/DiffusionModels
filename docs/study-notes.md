@@ -1,7 +1,7 @@
 # FYP Study Notes: VAE → Diffusion → Proposal Writing
 
-Last updated: 2026-09-28
-Status: Documentation study phase (no coding yet per user request)
+Last updated: 2026-10-07
+Status: Literature review realigned to supervisor guidance (LVM / gen+inpaint); coding deferred
 
 ## Learning path (user-assigned)
 
@@ -216,9 +216,19 @@ Word limit ≈ 3000.
 
 ---
 
+# Proposal writing progress
+
+| Block | Owner | Status | Doc |
+|-------|-------|--------|-----|
+| 1. Problem statement | Whole PPT / supervisor framing | Outline only | `supervisor-guidance.md` + PPT mock |
+| 2. Aims & objectives | Whole PPT | Outline only | PPT mock |
+| 3. Literature review | **You** | **Aligned to supervisor (LVM, gen+inpaint)** | `FYP_PPT_Literature_Review.md` + report Ch.2 |
+| 4. Preliminary methodology | Whole PPT (not your section) | Outline only | supervisor methodology notes |
+
 # Open items / next study actions
 
 1. Watch VAE vids 1–3 + intuitive video (equations ↔ intuition)
 2. Watch Luo talk while tracing paper §§ VDM / closed-form / ε-param
 3. Self-quiz: derive ELBO both ways; derive \(x_t\) closed form; derive why L_simple ≈ KL matching
-4. Only after that: open empty repo and code VAE then DDPM from scratch
+4. Polish Problem / Aims / Methodology PPT wording if supervisor feedback arrives
+5. Only after equation mastery: code VAE then DDPM from scratch

@@ -2,7 +2,8 @@
 ## VAE & Diffusion Models from Scratch (PyTorch)
 
 > PPT 必含四塊：(1) Problem statement (2) Aims & objectives (3) Literature review (4) Preliminary methodology  
-> 以下為簡短投影片文案示意（約 8–10 頁）
+> **你的負責範圍：僅 (3) Literature review**（對齊 supervisor 指引；見 `supervisor-guidance.md`）。  
+> 以下為簡短投影片文案示意；Lit review 以 `FYP_PPT_Literature_Review.md` 為準。
 
 ---
 
@@ -54,35 +55,32 @@ To master the core equations of Variational Autoencoders and Denoising Diffusion
 
 ---
 
-# Slide 5 — (3) Literature Review · Landscape
+# Slides — (3) Literature Review ← **你的部分**
 
-| Family | Idea | Issue for learning |
-|--------|------|--------------------|
-| Autoencoder | Compress → reconstruct | Cannot sample a proper prior |
-| **VAE** | ELBO = recon − KL | Maths often skipped; blurry samples |
-| GAN | Adversarial generator | Unstable; different story |
-| **DDPM** | Learn reverse of noise chain | Heavy; easy to treat as black box |
-| Libraries (e.g. Diffusers) | Fast demos | Hide equations this FYP must show |
+> **完整投影片文案：** [`docs/FYP_PPT_Literature_Review.md`](./FYP_PPT_Literature_Review.md)  
+> **Supervisor 指引摘錄：** [`docs/supervisor-guidance.md`](./supervisor-guidance.md)
 
----
+**建議頁序（對齊 supervisor：LVM / VAE→diffusion / 兩應用）**
 
-# Slide 6 — (3) Literature Review · Key takeaways
+| 頁 | 內容 |
+|----|------|
+| 1 | Scope：Generative AI → LVM → diffusion |
+| 2 | LLM vs LVM；noise + guidance → image |
+| 3 | Landscape：VAE / GAN / DDPM / LDM |
+| 4 | VAE ELBO（premise） |
+| 5 | VAE → diffusion bridge（Luo）；high-level I/O |
+| 6 | Diffusion procedure + \(\mathcal{L}_{\mathrm{simple}}\) |
+| 7 | App：image generation |
+| 8 | App：image inpainting（e.g. RePaint） |
+| 9 | MNIST theory vs pretrained real apps |
+| 10 | Requirements R1–R6 + gap summary |
 
-- **VAE** = learn encoder \(q_\phi(z|x)\) + decoder \(p_\theta(x|z)\); train with ELBO  
-- **Diffusion** ≈ deep Markovian VAE with **fixed Gaussian noising** and a **learned denoiser**  
-- Practical DDPM objective: predict noise \(\varepsilon\) added to \(x_0\)  
-- Requirement for this FYP: transparent maths–code mapping, not SOTA image quality  
+**一頁版精簡 takeaways**
 
----
-
-# Slide 7 — (3) vs Proposed Solution
-
-| | Typical tutorial / library | This project |
-|--|----------------------------|--------------|
-| Focus | Pretty samples | Equations + correct minimal code |
-| Scope | VAE *or* diffusion | **Both** (VAE as premise) |
-| Stack | High-level APIs | From-scratch PyTorch |
-| Success | FID / demos | Working models + clear write-up |
+- LVM：noise (+ guidance) → image；主流算法 = diffusion  
+- VAE = 理解 diffusion / latent LVM 的前提  
+- 兩應用：generation + inpainting  
+- 理論用 toy／from-scratch；真實圖用 pretrained  
 
 ---
 
@@ -129,5 +127,5 @@ Dataset → Train loop → {VAE | DDPM} → Checkpoints + sample images
 
 - Problem：不是「做一個生成 App」，而是「方程能講清、程式能對上」。  
 - Aim 一句；Objectives 用动词（Study / Design / Implement / Evaluate）。  
-- Lit review：表格式最省時間；強調 VAE → diffusion 的連結。  
+- Lit review：依 `FYP_PPT_Literature_Review.md`；表格式 + VAE→diffusion 一條線；結尾抽出 R1–R5。  
 - Methodology：一條 pipeline + 兩個模組公式就夠；正式版再補 component / data-flow 圖。

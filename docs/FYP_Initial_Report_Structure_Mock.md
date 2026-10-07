@@ -61,29 +61,77 @@ Generative models learn a data distribution and can sample new images. Two found
 
 # Chapter 2. Background or Literature Review
 
+> **Ownership:** Literature Review is the section this contributor owns.  
+> PPT 完整文案：[`docs/FYP_PPT_Literature_Review.md`](./FYP_PPT_Literature_Review.md)  
+> Supervisor framing：[`docs/supervisor-guidance.md`](./supervisor-guidance.md)
+
 ## 2.1 Review of Existing or Related Solutions
+
+### 2.1.1 Generative AI and Large Vision Models (LVM)
+
+Generative AI spans large language models (LLMs) and large vision models (LVMs). A generative LVM typically maps **noise plus optional guidance** (text, class, mask, …) to an **image**. Recent systems have largely **converged on diffusion** as the core generative algorithm [Ho et al., 2020; Song et al., 2021], often combined with multi-modal conditioning. Latent Diffusion Models [Rombach et al., 2022] further show that practical LVMs compose a **VAE perceptual compressor** with **diffusion in latent space**—so VAE literacy is not optional for understanding modern generative vision.
+
+### 2.1.2 VAE foundations
+
+Classic autoencoders lack a proper latent prior for sampling. **VAEs** [Kingma & Welling, 2014; Rezende et al., 2014] introduce \(q_\phi(z|x)\) and maximise the ELBO:
+
+\[
+\mathrm{ELBO}
+=
+\mathbb{E}_{q_\phi(z|x)}\big[\log p_\theta(x|z)\big]
+-
+D_{\mathrm{KL}}\!\big(q_\phi(z|x)\,\|\,p(z)\big).
+\]
+
+The reparameterisation trick enables SGD through stochastic latents. Surveys note stability and a clear likelihood story, but often blurrier samples than GANs [Kingma & Welling, 2019]. **GANs** [Goodfellow et al., 2014] produce sharp images yet offer a weaker ELBO narrative for this project’s learning goals.
+
+### 2.1.3 Diffusion models (high-level procedure)
+
+Diffusion generative models originate in nonequilibrium thermodynamics [Sohl-Dickstein et al., 2015]. **DDPM** [Ho et al., 2020] made them practical:
+
+\[
+x_t=\sqrt{\bar\alpha_t}\,x_0+\sqrt{1-\bar\alpha_t}\,\varepsilon,
+\quad
+\mathcal{L}_{\mathrm{simple}}=\mathbb{E}\|\varepsilon-\varepsilon_\theta(x_t,t)\|_2^2.
+\]
+
+**High-level I/O:** train on noisified images; sample from \(x_T\sim\mathcal{N}(0,I)\) by iterative denoising (plus guidance for LVMs). **Luo [2022]** frames diffusion as a deep **Markovian hierarchical VAE** with a *fixed* Gaussian forward process—hence VAE study is the premise of diffusion understanding.
+
+### 2.1.4 Applications: image generation and inpainting
+
+| Task | Representative approaches | Lesson |
+|------|---------------------------|--------|
+| **Image generation** | VAE/GAN sampling; DDPM ancestral sampling; latent diffusion with text guidance [Rombach et al., 2022] | Same denoising backbone scales from toy data to LVMs |
+| **Image inpainting** | GAN/CNN fill-in; **RePaint** mask-constrained diffusion [Lugmayr et al., 2022]; latent inpainting | Reverse diffusion naturally supports constraining known pixels |
+
+Supervisor-aligned scope therefore reviews **both** tasks under one generative-LVM umbrella.
+
+### 2.1.5 Theory vs application settings; tooling gap
+
+Literature commonly uses **MNIST-scale** data to validate algorithms, and **CIFAR / ImageNet** (often with pretrained weights) for real-image applications. High-level libraries (e.g. Diffusers) speed demos but bury ELBO / schedule derivations—creating a pedagogical gap this review targets.
 
 | Approach | Idea | Limitation for this FYP |
 |----------|------|-------------------------|
-| Classic Autoencoder | Compress → reconstruct | Latent space not regularised for sampling |
-| VAE [Kingma & Welling] | ELBO = recon − KL | Blurry samples; needs careful β / architecture |
-| GAN | Adversarial training | Unstable; weaker likelihood story |
-| DDPM [Ho et al.] | Learn to reverse a noise chain | Slow sampling; heavier compute |
-| High-level libraries (diffusers, etc.) | Fast results | Hide the equations this project must master |
+| VAE [Kingma & Welling, 2014] | ELBO = recon − KL | Maths often skipped; blurry pixels |
+| GAN [Goodfellow et al., 2014] | Adversarial training | Unstable; weak likelihood story |
+| DDPM [Ho et al., 2020] | Reverse noise chain | Easy to treat as black-box U-Net |
+| LDM [Rombach et al., 2022] | VAE latent + diffusion | Opaque if only calling APIs |
+| RePaint [Lugmayr et al., 2022] | Diffusion inpainting | Extra sampling cost |
+| High-level libraries | Fast pretrained pipelines | Hide equations |
 
-**Domain requirements (from lessons learned):**  
-(R1) Tractable training objective (R2) Explicit sampling path (R3) Transparent maths–code mapping (R4) Runnable on limited hardware.
+**Domain requirements (R1–R6):** (R1) explain LVM I/O (noise+guidance→image); (R2) master VAE ELBO as premise; (R3) state diffusion procedure + key equations; (R4) cover generation **and** inpainting; (R5) separate toy/theory vs pretrained/application tracks; (R6) transparent maths↔PyTorch path.
 
 ## 2.2 Highlight of the Proposed Solution
 
-| | Existing tutorials / libs | This project |
-|--|---------------------------|--------------|
-| Maths | Often skipped or partial | Derive and state key equations |
-| Code | Heavy frameworks | Minimal from-scratch PyTorch |
-| Scope | Either VAE *or* diffusion | Both, with VAE treated as the premise of diffusion |
-| Goal | Pretty samples first | Understanding first, then verified implementation |
+| | Library demo | SOTA LVM | This project’s theory direction |
+|--|--------------|----------|--------------------------------|
+| Goal | Fast pictures | Beat benchmarks | Understand generative LVM equations |
+| VAE | Hidden | Assumed component | Studied explicitly |
+| Diffusion | Black-box API | Full system | I/O + procedure + key losses |
+| Tasks | Often generation only | Task-specific | **Generation + inpainting** |
+| Data | Pretrained only | Web-scale | MNIST theory → pretrained real apps |
 
-Honest gap vs SOTA: sample quality and speed will not match Stable Diffusion; the value is **clarity and correctness of first principles**.
+Honest gap: from-scratch quality will not match Stable Diffusion. Value: a clear **VAE → diffusion → two vision applications** narrative aligned with how generative LVMs work (R1–R6).
 
 ---
 
@@ -143,9 +191,15 @@ Objectives map to: theory modules → two model modules → evaluation module �
 # References
 
 1. Kingma, D. P., & Welling, M. (2014). Auto-Encoding Variational Bayes. *ICLR*.  
-2. Ho, J., Jain, A., & Abbeel, P. (2020). Denoising Diffusion Probabilistic Models. *NeurIPS*.  
-3. Luo, C. (2022). Understanding Diffusion Models: A Unified Perspective. *arXiv:2208.11970*.  
-4. [Add ≥3 more journal/conference papers for the real submission]
+2. Rezende, D. J., Mohamed, S., & Wierstra, D. (2014). Stochastic Backpropagation and Approximate Inference in Deep Generative Models. *ICML*.  
+3. Kingma, D. P., & Welling, M. (2019). An Introduction to Variational Autoencoders. *Foundations and Trends in Machine Learning*, 12(4), 307–392.  
+4. Goodfellow, I., et al. (2014). Generative Adversarial Nets. *NeurIPS*.  
+5. Sohl-Dickstein, J., Weiss, E., Maheswaranathan, N., & Ganguli, S. (2015). Deep Unsupervised Learning using Nonequilibrium Thermodynamics. *ICML*.  
+6. Ho, J., Jain, A., & Abbeel, P. (2020). Denoising Diffusion Probabilistic Models. *NeurIPS*.  
+7. Song, Y., et al. (2021). Score-Based Generative Modeling through Stochastic Differential Equations. *ICLR*.  
+8. Luo, C. (2022). Understanding Diffusion Models: A Unified Perspective. *arXiv:2208.11970*.  
+9. Rombach, R., Blattmann, A., Lorenz, D., Esser, P., & Ommer, B. (2022). High-Resolution Image Synthesis with Latent Diffusion Models. *CVPR*.  
+10. Lugmayr, A., Danelljan, M., Romero, A., Yu, F., Timofte, R., & Van Gool, L. (2022). RePaint: Inpainting using Denoising Diffusion Probabilistic Models. *CVPR*.
 
 ---
 
