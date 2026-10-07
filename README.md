@@ -23,13 +23,20 @@ HKMU Final Year Project workspace: study and from-scratch implementation of **VA
 ## Repo layout
 
 ```text
-docs/          # Initial report mock, PPT outline, study notes
+docs/          # Initial report mock, PPT outline, literature review, study notes
 src/           # (later) from-scratch VAE & DDPM
 ```
 
+| Doc | Role |
+|-----|------|
+| [`docs/FYP_PPT_Structure_Mock.md`](docs/FYP_PPT_Structure_Mock.md) | Full PPT skeleton (4 required blocks) |
+| [`docs/FYP_PPT_Literature_Review.md`](docs/FYP_PPT_Literature_Review.md) | **Literature review slides** (equations + citations) |
+| [`docs/FYP_Initial_Report_Structure_Mock.md`](docs/FYP_Initial_Report_Structure_Mock.md) | Initial report mock (Ch.2 expanded) |
+| [`docs/study-notes.md`](docs/study-notes.md) | Equation study notes |
+
 ## Status
 
-Documentation / study phase first. Implementation comes after equation mastery.
+Documentation / study phase. **Literature review (PPT + report Ch.2) drafted.** Implementation comes after equation mastery.
 
 ## License
 

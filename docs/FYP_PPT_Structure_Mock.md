@@ -54,35 +54,29 @@ To master the core equations of Variational Autoencoders and Denoising Diffusion
 
 ---
 
-# Slide 5 — (3) Literature Review · Landscape
+# Slides 5–11 — (3) Literature Review
 
-| Family | Idea | Issue for learning |
-|--------|------|--------------------|
-| Autoencoder | Compress → reconstruct | Cannot sample a proper prior |
-| **VAE** | ELBO = recon − KL | Maths often skipped; blurry samples |
-| GAN | Adversarial generator | Unstable; different story |
-| **DDPM** | Learn reverse of noise chain | Heavy; easy to treat as black box |
-| Libraries (e.g. Diffusers) | Fast demos | Hide equations this FYP must show |
+> **完整投影片文案（含方程、對照表、≥9 篇引用）見：**  
+> [`docs/FYP_PPT_Literature_Review.md`](./FYP_PPT_Literature_Review.md)
 
----
+**簡報建議頁序（約 7 頁）**
 
-# Slide 6 — (3) Literature Review · Key takeaways
+| PPT 頁 | 內容 |
+|--------|------|
+| 5 | Landscape：AE / VAE / GAN / DDPM / score / libraries |
+| 6 | VAE ELBO + reparameterisation（核心方程） |
+| 7 | Hierarchical VAE → diffusion（Luo 統一觀點） |
+| 8 | DDPM forward：\(x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon\) |
+| 9 | Reverse + \(\mathcal{L}_{\mathrm{simple}}\) noise-prediction loss |
+| 10 | Lessons → domain requirements R1–R5 |
+| 11 | Proposed solution vs tutorials / SOTA（誠實差距） |
 
-- **VAE** = learn encoder \(q_\phi(z|x)\) + decoder \(p_\theta(x|z)\); train with ELBO  
-- **Diffusion** ≈ deep Markovian VAE with **fixed Gaussian noising** and a **learned denoiser**  
-- Practical DDPM objective: predict noise \(\varepsilon\) added to \(x_0\)  
-- Requirement for this FYP: transparent maths–code mapping, not SOTA image quality  
+**一頁版精簡 takeaways（時間不夠時用）**
 
----
-
-# Slide 7 — (3) vs Proposed Solution
-
-| | Typical tutorial / library | This project |
-|--|----------------------------|--------------|
-| Focus | Pretty samples | Equations + correct minimal code |
-| Scope | VAE *or* diffusion | **Both** (VAE as premise) |
-| Stack | High-level APIs | From-scratch PyTorch |
-| Success | FID / demos | Working models + clear write-up |
+- **VAE** = \(q_\phi(z|x)\) + \(p_\theta(x|z)\)；ELBO = recon − KL  
+- **Diffusion** ≈ deep Markovian VAE：固定 Gaussian noising + 學習 denoiser  
+- 實務 DDPM：預測加到 \(x_0\) 的噪聲 \(\varepsilon\)  
+- 本 FYP：透明 maths↔code，非 SOTA 畫質  
 
 ---
 
@@ -129,5 +123,5 @@ Dataset → Train loop → {VAE | DDPM} → Checkpoints + sample images
 
 - Problem：不是「做一個生成 App」，而是「方程能講清、程式能對上」。  
 - Aim 一句；Objectives 用动词（Study / Design / Implement / Evaluate）。  
-- Lit review：表格式最省時間；強調 VAE → diffusion 的連結。  
+- Lit review：依 `FYP_PPT_Literature_Review.md`；表格式 + VAE→diffusion 一條線；結尾抽出 R1–R5。  
 - Methodology：一條 pipeline + 兩個模組公式就夠；正式版再補 component / data-flow 圖。

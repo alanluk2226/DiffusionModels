@@ -1,7 +1,7 @@
 # FYP Study Notes: VAE → Diffusion → Proposal Writing
 
-Last updated: 2026-09-28
-Status: Documentation study phase (no coding yet per user request)
+Last updated: 2026-10-07
+Status: Literature review drafted for PPT + Initial Report Ch.2; coding still deferred until equation mastery
 
 ## Learning path (user-assigned)
 
