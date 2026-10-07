@@ -29,14 +29,15 @@ src/           # (later) from-scratch VAE & DDPM
 
 | Doc | Role |
 |-----|------|
-| [`docs/FYP_PPT_Structure_Mock.md`](docs/FYP_PPT_Structure_Mock.md) | Full PPT skeleton (4 required blocks) |
-| [`docs/FYP_PPT_Literature_Review.md`](docs/FYP_PPT_Literature_Review.md) | **Literature review slides** (equations + citations) |
-| [`docs/FYP_Initial_Report_Structure_Mock.md`](docs/FYP_Initial_Report_Structure_Mock.md) | Initial report mock (Ch.2 expanded) |
+| [`docs/supervisor-guidance.md`](docs/supervisor-guidance.md) | Supervisor PPT framing (motivation / method / outcome) |
+| [`docs/FYP_PPT_Literature_Review.md`](docs/FYP_PPT_Literature_Review.md) | **Your deliverable:** Literature review slides |
+| [`docs/FYP_PPT_Structure_Mock.md`](docs/FYP_PPT_Structure_Mock.md) | Full PPT skeleton (4 blocks; you own lit review only) |
+| [`docs/FYP_Initial_Report_Structure_Mock.md`](docs/FYP_Initial_Report_Structure_Mock.md) | Initial report mock (Ch.2 = lit review) |
 | [`docs/study-notes.md`](docs/study-notes.md) | Equation study notes |
 
 ## Status
 
-Documentation / study phase. **Literature review (PPT + report Ch.2) drafted.** Implementation comes after equation mastery.
+**Literature review** aligned to supervisor guidance (Generative LVM → VAE → diffusion; apps = generation + inpainting). Other PPT sections are out of this contributor’s ownership.
 
 ## License
 

@@ -61,13 +61,19 @@ Generative models learn a data distribution and can sample new images. Two found
 
 # Chapter 2. Background or Literature Review
 
-> PPT 版完整文案（含方程投影片）：[`docs/FYP_PPT_Literature_Review.md`](./FYP_PPT_Literature_Review.md)
+> **Ownership:** Literature Review is the section this contributor owns.  
+> PPT 完整文案：[`docs/FYP_PPT_Literature_Review.md`](./FYP_PPT_Literature_Review.md)  
+> Supervisor framing：[`docs/supervisor-guidance.md`](./supervisor-guidance.md)
 
 ## 2.1 Review of Existing or Related Solutions
 
-### 2.1.1 Generative modelling families
+### 2.1.1 Generative AI and Large Vision Models (LVM)
 
-Classic autoencoders learn a bottleneck reconstruction mapping but do not place a proper prior on the latent code, so ancestral sampling is ill-defined. **Variational Autoencoders (VAEs)** [Kingma & Welling, 2014; Rezende et al., 2014] address this by introducing an approximate posterior \(q_\phi(z|x)\) and maximising the Evidence Lower Bound (ELBO):
+Generative AI spans large language models (LLMs) and large vision models (LVMs). A generative LVM typically maps **noise plus optional guidance** (text, class, mask, …) to an **image**. Recent systems have largely **converged on diffusion** as the core generative algorithm [Ho et al., 2020; Song et al., 2021], often combined with multi-modal conditioning. Latent Diffusion Models [Rombach et al., 2022] further show that practical LVMs compose a **VAE perceptual compressor** with **diffusion in latent space**—so VAE literacy is not optional for understanding modern generative vision.
+
+### 2.1.2 VAE foundations
+
+Classic autoencoders lack a proper latent prior for sampling. **VAEs** [Kingma & Welling, 2014; Rezende et al., 2014] introduce \(q_\phi(z|x)\) and maximise the ELBO:
 
 \[
 \mathrm{ELBO}
@@ -77,55 +83,55 @@ Classic autoencoders learn a bottleneck reconstruction mapping but do not place 
 D_{\mathrm{KL}}\!\big(q_\phi(z|x)\,\|\,p(z)\big).
 \]
 
-With a diagonal-Gaussian encoder and standard normal prior, the KL term has a closed form; the **reparameterisation trick** \(z=\mu+\sigma\odot\varepsilon\) enables end-to-end SGD. Surveys note that pixel-space VAEs remain stable and likelihood-oriented, yet samples are often blurrier than adversarial models [Kingma & Welling, 2019].
+The reparameterisation trick enables SGD through stochastic latents. Surveys note stability and a clear likelihood story, but often blurrier samples than GANs [Kingma & Welling, 2019]. **GANs** [Goodfellow et al., 2014] produce sharp images yet offer a weaker ELBO narrative for this project’s learning goals.
 
-**Generative Adversarial Networks (GANs)** [Goodfellow et al., 2014] produce sharp images via a min–max game, but training can be unstable and they do not supply the explicit ELBO story required for this FYP’s learning goals.
+### 2.1.3 Diffusion models (high-level procedure)
 
-### 2.1.2 Diffusion models
-
-**Diffusion / nonequilibrium** generative models were introduced by Sohl-Dickstein et al. [2015]. **Denoising Diffusion Probabilistic Models (DDPM)** [Ho et al., 2020] made the approach practical for high-quality image synthesis. A fixed forward process injects Gaussian noise:
+Diffusion generative models originate in nonequilibrium thermodynamics [Sohl-Dickstein et al., 2015]. **DDPM** [Ho et al., 2020] made them practical:
 
 \[
 x_t=\sqrt{\bar\alpha_t}\,x_0+\sqrt{1-\bar\alpha_t}\,\varepsilon,
+\quad
+\mathcal{L}_{\mathrm{simple}}=\mathbb{E}\|\varepsilon-\varepsilon_\theta(x_t,t)\|_2^2.
 \]
 
-and a neural network learns the reverse transitions. Matching reverse Gaussians to the true posterior \(q(x_{t-1}|x_t,x_0)\) yields (up to weighting) the simplified noise-prediction loss \(\mathcal{L}_{\mathrm{simple}}=\mathbb{E}\|\varepsilon-\varepsilon_\theta(x_t,t)\|_2^2\). Score-based / SDE views [Song et al., 2021] unify continuous-time diffusion; **Luo [2022]** further shows that diffusion is a deep **Markovian hierarchical VAE** with a *fixed* Gaussian encoder and a *learned* denoiser—hence VAE study is a premise of diffusion understanding. Latent Diffusion Models [Rombach et al., 2022] combine a VAE compressor with diffusion in latent space and underpin systems such as Stable Diffusion; they are influential but too large as a first from-scratch target.
+**High-level I/O:** train on noisified images; sample from \(x_T\sim\mathcal{N}(0,I)\) by iterative denoising (plus guidance for LVMs). **Luo [2022]** frames diffusion as a deep **Markovian hierarchical VAE** with a *fixed* Gaussian forward process—hence VAE study is the premise of diffusion understanding.
 
-### 2.1.3 Tooling and tutorials
+### 2.1.4 Applications: image generation and inpainting
 
-High-level libraries (e.g. Hugging Face Diffusers) and many Kaggle notebooks deliver fast visual demos but typically bury the ELBO / schedule / loss derivation. That creates a **pedagogical gap**: learners can generate images without connecting each loss term to code.
+| Task | Representative approaches | Lesson |
+|------|---------------------------|--------|
+| **Image generation** | VAE/GAN sampling; DDPM ancestral sampling; latent diffusion with text guidance [Rombach et al., 2022] | Same denoising backbone scales from toy data to LVMs |
+| **Image inpainting** | GAN/CNN fill-in; **RePaint** mask-constrained diffusion [Lugmayr et al., 2022]; latent inpainting | Reverse diffusion naturally supports constraining known pixels |
+
+Supervisor-aligned scope therefore reviews **both** tasks under one generative-LVM umbrella.
+
+### 2.1.5 Theory vs application settings; tooling gap
+
+Literature commonly uses **MNIST-scale** data to validate algorithms, and **CIFAR / ImageNet** (often with pretrained weights) for real-image applications. High-level libraries (e.g. Diffusers) speed demos but bury ELBO / schedule derivations—creating a pedagogical gap this review targets.
 
 | Approach | Idea | Limitation for this FYP |
 |----------|------|-------------------------|
-| Classic Autoencoder | Compress → reconstruct | Latent not regularised for sampling |
-| VAE [Kingma & Welling, 2014] | ELBO = recon − KL | Blurry samples; maths often skipped in tutorials |
-| GAN [Goodfellow et al., 2014] | Adversarial training | Unstable; weaker likelihood story |
-| DDPM [Ho et al., 2020] | Learn to reverse a noise chain | Slow sampling; easy to treat as black-box U-Net |
-| Score / SDE [Song et al., 2021] | Estimate ∇ log *p* | Extra abstraction beyond core FYP depth |
-| LDM [Rombach et al., 2022] | Diffusion in VAE latent space | Production scale; not first-principles friendly |
-| High-level libraries | Fast pretrained pipelines | Hide equations this project must master |
+| VAE [Kingma & Welling, 2014] | ELBO = recon − KL | Maths often skipped; blurry pixels |
+| GAN [Goodfellow et al., 2014] | Adversarial training | Unstable; weak likelihood story |
+| DDPM [Ho et al., 2020] | Reverse noise chain | Easy to treat as black-box U-Net |
+| LDM [Rombach et al., 2022] | VAE latent + diffusion | Opaque if only calling APIs |
+| RePaint [Lugmayr et al., 2022] | Diffusion inpainting | Extra sampling cost |
+| High-level libraries | Fast pretrained pipelines | Hide equations |
 
-**Domain requirements (lessons learned → design criteria):**
-
-| ID | Requirement |
-|----|-------------|
-| R1 | Tractable training objective (ELBO / \(\mathcal{L}_{\mathrm{simple}}\)) |
-| R2 | Explicit sampling path (decode \(z\) / reverse denoising chain) |
-| R3 | Transparent maths–code mapping |
-| R4 | Runnable on limited student hardware (MNIST-scale) |
-| R5 | Cover **both** VAE and DDPM, with VAE as the premise |
+**Domain requirements (R1–R6):** (R1) explain LVM I/O (noise+guidance→image); (R2) master VAE ELBO as premise; (R3) state diffusion procedure + key equations; (R4) cover generation **and** inpainting; (R5) separate toy/theory vs pretrained/application tracks; (R6) transparent maths↔PyTorch path.
 
 ## 2.2 Highlight of the Proposed Solution
 
-| | Existing tutorials / libs | SOTA (e.g. LDM) | This project |
-|--|---------------------------|-----------------|--------------|
-| Maths | Often skipped or partial | Assumed known | Derive and state key equations |
-| Code | Heavy frameworks | Large pretrained stacks | Minimal from-scratch PyTorch |
-| Scope | Either VAE *or* diffusion | Full latent-diffusion pipeline | Both, VAE as premise of diffusion |
-| Goal | Pretty samples first | FID / production quality | Understanding first, then verified implementation |
-| Hardware | Often cloud GPU | Multi-GPU | CPU / single-GPU friendly |
+| | Library demo | SOTA LVM | This project’s theory direction |
+|--|--------------|----------|--------------------------------|
+| Goal | Fast pictures | Beat benchmarks | Understand generative LVM equations |
+| VAE | Hidden | Assumed component | Studied explicitly |
+| Diffusion | Black-box API | Full system | I/O + procedure + key losses |
+| Tasks | Often generation only | Task-specific | **Generation + inpainting** |
+| Data | Pretrained only | Web-scale | MNIST theory → pretrained real apps |
 
-Honest gap vs SOTA: sample quality and speed will not match Stable Diffusion; the value is **clarity and correctness of first principles**, judged against R1–R5.
+Honest gap: from-scratch quality will not match Stable Diffusion. Value: a clear **VAE → diffusion → two vision applications** narrative aligned with how generative LVMs work (R1–R6).
 
 ---
 
@@ -192,7 +198,8 @@ Objectives map to: theory modules → two model modules → evaluation module �
 6. Ho, J., Jain, A., & Abbeel, P. (2020). Denoising Diffusion Probabilistic Models. *NeurIPS*.  
 7. Song, Y., et al. (2021). Score-Based Generative Modeling through Stochastic Differential Equations. *ICLR*.  
 8. Luo, C. (2022). Understanding Diffusion Models: A Unified Perspective. *arXiv:2208.11970*.  
-9. Rombach, R., Blattmann, A., Lorenz, D., Esser, P., & Ommer, B. (2022). High-Resolution Image Synthesis with Latent Diffusion Models. *CVPR*.
+9. Rombach, R., Blattmann, A., Lorenz, D., Esser, P., & Ommer, B. (2022). High-Resolution Image Synthesis with Latent Diffusion Models. *CVPR*.  
+10. Lugmayr, A., Danelljan, M., Romero, A., Yu, F., Timofte, R., & Van Gool, L. (2022). RePaint: Inpainting using Denoising Diffusion Probabilistic Models. *CVPR*.
 
 ---
 

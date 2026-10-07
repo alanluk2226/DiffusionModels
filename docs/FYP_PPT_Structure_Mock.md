@@ -2,7 +2,8 @@
 ## VAE & Diffusion Models from Scratch (PyTorch)
 
 > PPT 必含四塊：(1) Problem statement (2) Aims & objectives (3) Literature review (4) Preliminary methodology  
-> 以下為簡短投影片文案示意（約 8–10 頁）
+> **你的負責範圍：僅 (3) Literature review**（對齊 supervisor 指引；見 `supervisor-guidance.md`）。  
+> 以下為簡短投影片文案示意；Lit review 以 `FYP_PPT_Literature_Review.md` 為準。
 
 ---
 
@@ -54,29 +55,32 @@ To master the core equations of Variational Autoencoders and Denoising Diffusion
 
 ---
 
-# Slides 5–11 — (3) Literature Review
+# Slides — (3) Literature Review ← **你的部分**
 
-> **完整投影片文案（含方程、對照表、≥9 篇引用）見：**  
-> [`docs/FYP_PPT_Literature_Review.md`](./FYP_PPT_Literature_Review.md)
+> **完整投影片文案：** [`docs/FYP_PPT_Literature_Review.md`](./FYP_PPT_Literature_Review.md)  
+> **Supervisor 指引摘錄：** [`docs/supervisor-guidance.md`](./supervisor-guidance.md)
 
-**簡報建議頁序（約 7 頁）**
+**建議頁序（對齊 supervisor：LVM / VAE→diffusion / 兩應用）**
 
-| PPT 頁 | 內容 |
-|--------|------|
-| 5 | Landscape：AE / VAE / GAN / DDPM / score / libraries |
-| 6 | VAE ELBO + reparameterisation（核心方程） |
-| 7 | Hierarchical VAE → diffusion（Luo 統一觀點） |
-| 8 | DDPM forward：\(x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon\) |
-| 9 | Reverse + \(\mathcal{L}_{\mathrm{simple}}\) noise-prediction loss |
-| 10 | Lessons → domain requirements R1–R5 |
-| 11 | Proposed solution vs tutorials / SOTA（誠實差距） |
+| 頁 | 內容 |
+|----|------|
+| 1 | Scope：Generative AI → LVM → diffusion |
+| 2 | LLM vs LVM；noise + guidance → image |
+| 3 | Landscape：VAE / GAN / DDPM / LDM |
+| 4 | VAE ELBO（premise） |
+| 5 | VAE → diffusion bridge（Luo）；high-level I/O |
+| 6 | Diffusion procedure + \(\mathcal{L}_{\mathrm{simple}}\) |
+| 7 | App：image generation |
+| 8 | App：image inpainting（e.g. RePaint） |
+| 9 | MNIST theory vs pretrained real apps |
+| 10 | Requirements R1–R6 + gap summary |
 
-**一頁版精簡 takeaways（時間不夠時用）**
+**一頁版精簡 takeaways**
 
-- **VAE** = \(q_\phi(z|x)\) + \(p_\theta(x|z)\)；ELBO = recon − KL  
-- **Diffusion** ≈ deep Markovian VAE：固定 Gaussian noising + 學習 denoiser  
-- 實務 DDPM：預測加到 \(x_0\) 的噪聲 \(\varepsilon\)  
-- 本 FYP：透明 maths↔code，非 SOTA 畫質  
+- LVM：noise (+ guidance) → image；主流算法 = diffusion  
+- VAE = 理解 diffusion / latent LVM 的前提  
+- 兩應用：generation + inpainting  
+- 理論用 toy／from-scratch；真實圖用 pretrained  
 
 ---
 

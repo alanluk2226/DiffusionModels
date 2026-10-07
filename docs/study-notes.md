@@ -1,7 +1,7 @@
 # FYP Study Notes: VAE → Diffusion → Proposal Writing
 
 Last updated: 2026-10-07
-Status: Literature review drafted for PPT + Initial Report Ch.2; coding still deferred until equation mastery
+Status: Literature review realigned to supervisor guidance (LVM / gen+inpaint); coding deferred
 
 ## Learning path (user-assigned)
 
@@ -218,12 +218,12 @@ Word limit ≈ 3000.
 
 # Proposal writing progress
 
-| Block | Status | Doc |
-|-------|--------|-----|
-| 1. Problem statement | Drafted (PPT + report) | `FYP_PPT_Structure_Mock.md` |
-| 2. Aims & objectives | Drafted | same |
-| 3. Literature review | **Done (expanded)** | `FYP_PPT_Literature_Review.md` + report Ch.2 |
-| 4. Preliminary methodology | Drafted (needs diagrams later) | PPT slides 8–9 / report Ch.3 |
+| Block | Owner | Status | Doc |
+|-------|-------|--------|-----|
+| 1. Problem statement | Whole PPT / supervisor framing | Outline only | `supervisor-guidance.md` + PPT mock |
+| 2. Aims & objectives | Whole PPT | Outline only | PPT mock |
+| 3. Literature review | **You** | **Aligned to supervisor (LVM, gen+inpaint)** | `FYP_PPT_Literature_Review.md` + report Ch.2 |
+| 4. Preliminary methodology | Whole PPT (not your section) | Outline only | supervisor methodology notes |
 
 # Open items / next study actions
 
