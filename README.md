@@ -8,6 +8,29 @@ HKMU Final Year Project workspace: study and from-scratch implementation of **VA
 2. Implement both **from scratch** in this repo (not only high-level library demos).
 3. Document understanding in reports / presentations.
 
+## Demo: 2D VAE on MNIST (latent space)
+
+Train a VAE with **latent_dim = 2**, then observe:
+
+| Figure | What to look at |
+|--------|------------------|
+| `artifacts/vae_2d_mnist/latent_scatter.png` | Digit clusters in 2D latent plane |
+| `artifacts/vae_2d_mnist/latent_4_9_0_focus.png` | Similar shapes **4 / 9** nearby; **4 → 0** mean path |
+| `artifacts/vae_2d_mnist/interp_4_to_0.png` | Linear interpolation: smooth **4 → 0** morph |
+| `artifacts/vae_2d_mnist/reconstructions.png` | Reconstructions are typically **blurry** |
+
+```bash
+pip install -r requirements.txt
+python -m src.vae_2d_mnist.run_demo --epochs 15
+
+# visualize only (needs existing checkpoint)
+python -m src.vae_2d_mnist.run_demo --skip-train
+```
+
+**Google Colab (recommended for quick demo):** open  
+[`notebooks/VAE_2D_MNIST_Latent_Demo.ipynb`](notebooks/VAE_2D_MNIST_Latent_Demo.ipynb)  
+→ upload to Colab, or use *File → Open notebook → GitHub*, then **Runtime → Run all**.
+
 ## Learning path (supervisor brief)
 
 | Step | Material |
@@ -23,13 +46,17 @@ HKMU Final Year Project workspace: study and from-scratch implementation of **VA
 ## Repo layout
 
 ```text
-docs/          # Initial report mock, PPT outline, study notes
-src/           # (later) from-scratch VAE & DDPM
+docs/                    # PPT / report notes
+src/vae_2d_mnist/        # 2D VAE train + visualize
+artifacts/vae_2d_mnist/  # Demo figures (committed)
+data/                    # MNIST download (gitignored)
+outputs/                 # Checkpoints (gitignored)
 ```
 
 ## Status
 
-Documentation / study phase first. Implementation comes after equation mastery.
+- Literature review drafted under `docs/`
+- **2D VAE MNIST latent-space demo** implemented
 
 ## License
 
