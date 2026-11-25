@@ -27,6 +27,10 @@ python -m src.vae_2d_mnist.run_demo --epochs 15
 python -m src.vae_2d_mnist.run_demo --skip-train
 ```
 
+**Google Colab (recommended for quick demo):** open  
+[`notebooks/VAE_2D_MNIST_Latent_Demo.ipynb`](notebooks/VAE_2D_MNIST_Latent_Demo.ipynb)  
+→ upload to Colab, or use *File → Open notebook → GitHub*, then **Runtime → Run all**.
+
 ## Learning path (supervisor brief)
 
 | Step | Material |
